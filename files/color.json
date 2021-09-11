@@ -1,0 +1,34 @@
+{
+    "author": "❱❱  Role Catalogue: Color Hues",
+    "description": "Below are different colors that determine your uppermost role color. Feel free to choose a color or your choice.",
+    "endmsg": "You may remove your color by unreacting.",
+
+    "load": "https://cdn.discordapp.com/attachments/693499542850764870/885917793869004800/954b5761a1795b57fc05c2e262ae2fd2.gif",
+    "logo": "https://cdn.discordapp.com/attachments/693499542850764870/886102331878416484/Area_02103B_Logo.png",
+
+    "c_cloud":     "> `01:` ✦ <@&885249876944904223> \n", 
+    "c_wheat":     "> `02:` ✦ <@&885249879402741781> \n",
+    "c_salmon":    "> `03:` ✦ <@&885249881936113674> \n",
+    "c_crimson":   "> `04:` ✦ <@&885249883974537247> \n",
+    "c_burgundy":  "> `05:` ✦ <@&885249886960885801> \n",
+
+    "c_indigo":    "> `06:` ✦ <@&885250045744668715> \n", 
+    "c_phtalo":    "> `07:` ✦ <@&885250061800456223> \n",
+    "c_seagreen":  "> `08:` ✦ <@&885250064279289937> \n",
+    "c_teal":      "> `09:` ✦ <@&885250066099626035> \n",
+    "c_moss":      "> `10:` ✦ <@&885250066795868191> \n",
+
+    "c_gold":      "> `11:` ✦ <@&885250068532330556> \n", 
+    "c_bronze":    "> `12:` ✦ <@&885250069207597116> \n",
+    "c_magenta":   "> `13:` ✦ <@&885250955199787118> \n",
+    "c_lavender":  "> `14:` ✦ <@&885250069761261609> \n",
+    "c_periwinkle":"> `15:` ✦ <@&885250942130323487> \n",
+
+    "c_purple":    "> `16:` ✦ <@&885250949113860096> \n", 
+    "c_azure":     "> `17:` ✦ <@&885250945850675260> \n",
+    "c_condense":  "> `18:` ✦ <@&885263019708407829> \n",
+    "c_smoke":     "> `19:` ✦ <@&885250952343474267> \n",
+    "c_marsblack": "> `20:` ✦ <@&885250958282612866> \n"
+
+
+}
