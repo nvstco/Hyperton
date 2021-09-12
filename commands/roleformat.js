@@ -5,7 +5,6 @@
 
         if (!(message.member.roles.cache.some(role => role.name === 'Tester'))) return;
         if (message.deletable) message.delete();
-        
         // filters out the messages to only the author
         const filter = msg => msg.author.id == message.author.id;
         var type = "", type_n1 = "", type_n2 = "", ctr = 1;
@@ -23,7 +22,7 @@
             .setColor(message.guild.me.displayHexColor)
             message.channel.send(aufmEmbed).then(r => r.delete({timeout: 30000}));
 
-        // collects all the messages sent and modifies them to store in type
+        // collects all the messages sent and modifies them to store in
         const collector = new Discord.MessageCollector(message.channel, filter, { max:10, time: 120000 });
         collector.on('collect', m => {
 
@@ -31,7 +30,7 @@
             else if (m.mentions.roles.first()){
                 
                 if(m.deletable) m.delete();
-                type += `> \`0${ctr}:\` ✦ ${m.content} \n`;
+                type += `> \`${('0'+ctr).slice(-2)}:\` ✦ ${m.content} \n`;
                 var valid = new Discord.MessageEmbed()
                     .setDescription(`**📢  Successfully added role #${ctr}:** ${m.content}`)
                     .setColor("2f3136")
@@ -55,26 +54,27 @@
                 else type_n2 += type_array[i] + "\n";
             }
 
-            try {
             const fnEmbed = new Discord.MessageEmbed()
                 .setAuthor(author)
                 .setDescription(description)
-
-                .addFields(
-                    {name: "Hues 01", value:type_n1, inline: true},
-                    {name: "Hues 02", value:type_n2, inline: true}
-                )
-                .addField('\u200b', endmsg)
 
                 .setColor(message.guild.me.displayHexColor)
                     .setFooter("Hyperspace Formatting", load)
                     .setThumbnail(load)
                 .setTimestamp()
-                message.channel.send(fnEmbed);
-
-            } catch(err) {
-                console.log(err);
+                
+            if (collected.size-1 == 1) 
+                fnEmbed.addField("Hues 01", type_n1)
+            else {
+                fnEmbed.addFields(
+                    {name: "Hues 01", value:type_n1, inline: true},
+                    {name: "Hues 02", value:type_n2, inline: true}
+                )
             }
+
+            fnEmbed.addField('\u200b', endmsg)
+            message.channel.send(fnEmbed);
+
         });
     
     }
