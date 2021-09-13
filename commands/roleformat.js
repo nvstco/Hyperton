@@ -28,17 +28,26 @@
         const collector = new Discord.MessageCollector(message.channel, filter, { max:10, time: 120*1000 });
         collector.on('collect', m => {
 
+            var rolename = m.guild.roles.cache.find(role => role.name === m.content);
+            var roleid = message.guild.roles.cache.get(m.content);
+            var t_msg = m.content;
+
             // if the message is "stop", it will stop collecting messages
-            if (m.content == "end") collector.stop();
-            // if the message contains a role
-            else if (m.mentions.roles.first()){
+            if (m.content == "stop") collector.stop();
+            // if the message contains a role, the role name, or the id
+            else if (m.mentions.roles.first() || rolename != undefined || roleid){
+                
+                // checks if user provided a role name
+                if(rolename != undefined) t_msg = `<@&${rolename.id}>`;
+                // checks if user provided a role id
+                if(roleid) t_msg = roleid;
                 
                 if(m.deletable) m.delete();
                 // formats the message with a stylized prefix and counter
-                type += `> \`${('0'+ctr).slice(-2)}:\` ✦ ${m.content} \n`;
+                type += `> \`${('0'+ctr).slice(-2)}:\` ✦ ${t_msg} \n`;
                 // creates an embed that will reply if the role has been added
                 var valid = new Discord.MessageEmbed()
-                    .setDescription(`**📢  Successfully added role #${ctr}:** ${m.content}`)
+                    .setDescription(`**📢  Successfully added role #${ctr}:** ${t_msg}`)
                     .setColor("2f3136")
                     
                 message.channel.send(valid).then(r => r.delete({timeout: 5*1000}));;
@@ -49,8 +58,6 @@
                 message.channel.send("Invalid input. Stopping rolemenu.") 
                 collector.stop();
             }
-
-            // add support for id only and name only
         });
 
         collector.on('end', collected => {
