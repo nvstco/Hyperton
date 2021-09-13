@@ -10,14 +10,14 @@
 
         // filters out the messages to only the author
         const filter = msg => msg.author.id == message.author.id;
-        var type = "", type_n1 = "", type_n2 = "", ctr = 1, c_size = 0;
+        var type = "", type_n1 = "", type_n2 = "", ctr = 1, c_size = 0, acc = true;
         
         // sends an embed about the formatter and deletes after 30000ms (30s)
         const aufmEmbed = new Discord.MessageEmbed()
             .setAuthor("❱❱  R-Formatter 1.0", client.user.displayAvatarURL())
-            .setDescription("> **Welcome to the R-Formatter 1.0.** This will create a new formatted catalog of your desired roles. To stop adding roles, type **'stop'**. This popup will disappear after **two minutes** of inactivity.")
+            .setDescription("**Welcome to the R-Formatter 1.0.** This will create a new formatted catalog of your desired roles. The formatter will continue to listen for input, unless you type **'stop'**. This popup will disappear after **two minutes** of inactivity.")
 
-            .addField("To start, enter you first role.", "Note: messages that do not contain a role or ID will stop the formatter.")
+            .addField("To start, enter a role name, an ID, or simply tag the role.", "Note: messages that do not contain a role or ID will stop the formatter.")
             .setFooter("Hyperspace Formatting", load)
                 .setThumbnail(message.guild.iconURL())
                 .setTimestamp()
@@ -56,18 +56,21 @@
                 var valid = new Discord.MessageEmbed()
                     .setDescription(`**📢  Successfully added role #${ctr}:** ${t_msg}`)
                     .setColor("2f3136");
-                message.channel.send(valid).then(r => r.delete({timeout: 5*1000}));
+                message.channel.send(valid).then(r => r.delete({timeout: 3*1000}));
                 ctr++;
             }
             else {
                 // anything else will result in an invalid output
                 message.channel.send("Invalid input. Stopping rolemenu.").then(r => r.delete({timeout: 5*1000}));
+                acc = false;
                 collector.stop();
             }
         });
 
         // once the collector finished collecting messages
         collector.on('end', collected => {
+
+            if (!acc) return;
 
             // splits type into an array
             type_array = type.split("\n");
@@ -110,33 +113,38 @@
             message.channel.send(fnEmbed).then(msgg => {
             
             // inform to add parameters, then delete user message immediately afterwards
-            message.channel.send("Would you like to edit some parameters?").then(r => r.delete({timeout: 10*1000}))
-            message.delete();
+            message.channel.send("> **Would you like to edit the information?** [Type 'yes' or 'no' to answer.] [This popup will delete itself after 10s.]")
+                .then(r => r.delete({timeout: 10*1000}))
 
             // waits for a message to be sent, and then when collected, executes
-            message.channel.awaitMessages(filter, {max: 1, time: 10000}).then(collected => {
+            message.channel.awaitMessages(filter, {max: 1, time: 10*1000}).then(collected => {
 
                 // parameters to be edited in 
-                var c_parameter = [ "author", "description", "color hex", "footer", "header", "filler"];
+                var c_parameter = [ "author", "description", "color hex", "header", "footer", "filler"];
                 var contents = "", ctr2 = 0;
 
+                // get the id of the collected message, and deletes it after 3 seconds.
+                message.channel.messages.fetch(collected.first().id).then(msg => msg.delete({timeout: 3*1000}));
+
+                try {
                 // if the message sent is yes, execute
                 if(collected.first().content == "yes" || collected.first().content == "y") {
 
+                    collected.delete();
                     // prepares the message to be sent, with the parameters inside
                     var inst_msg = `**Enter your ${c_parameter[ctr2]} message.** [Type 'retain' to keep it the same, or 'empty' to clear out the field.]`;
                     // sends the message, but waits for input for modifications
                     message.channel.send(inst_msg).then(msg =>{
                         
                         // collects all the messages sent and modifies them for the params section
-                        const collectorParam = new Discord.MessageCollector(message.channel, filter, { max:5, time: 60*1000 });
+                        const collectorParam = new Discord.MessageCollector(message.channel, filter, { max:5, time: 120*1000 });
                         collectorParam.on('collect', m => {
                             
                             // fixes showing the "filler" text when the message gets edited.
                             if (ctr2 < 4) 
                                 msg.edit(`**Enter your ${c_parameter[ctr2+1]} message.** [Type 'retain' to keep it the same, or 'empty' to clear out the field.]`);
                             else {
-                                msg.edit(`Parameters added.`).then(r => r.delete({timeout: 3*1000}));
+                                msg.edit(`Modifications complete.`).then(r => r.delete({timeout: 3*1000}));
                             }
 
                             // concatenates the content into a single string, to be filtered later on.
@@ -172,8 +180,8 @@
                             else if (cont_array[2] == "empty") fn_reembed.setColor("#2f3136");
 
                             // checks if the header section has modifications
-                            if (cont_array[4] == "empty") header = "/u200b";
-                            else if (cont_array[4] != "empty") header = cont_array[4];
+                            if (cont_array[3] == "empty") header = " ";
+                            else if (cont_array[3] != "empty") header = cont_array[4];
 
                             // utilizing c-size and type as global variables, to be inserted into the new embed
                             if (c_size-1 == 0) 
@@ -190,19 +198,26 @@
                             }
 
                             // checks if the footer section has modifications
-                            if (cont_array[3] == "retain") fn_reembed.addField('\u200b', endmsg);
-                            else if (cont_array[3] != "empty") fn_reembed.addField('\u200b', cont_array[3]);
+                            if (cont_array[4] == "retain") fn_reembed.addField('\u200b', endmsg);
+                            else if (cont_array[4] != "empty") fn_reembed.addField('\u200b', cont_array[3]);
 
                             // edits the embed into a new one with modifications, and deletes the first message.
                             msgg.edit(fn_reembed);
                             aufm_wait.delete();
+
+                            message.channel.send("> Format setup complete. [This message will delete itself after 5 seconds.]")
+                                .then(r => r.delete({timeout: 5*1000}))
                         });
                     });
+                }
+                } catch(err) {
+                    console.log("No input.");
                 }
 
                 // if the message sent is no, stop the command.
                 if(collected.first().content == "no" || collected.first().content == "n") {
-                    message.channel.send("Setup complete.").then(r => r.delete({timeout: 3*1000}));
+                    message.channel.send("> Format setup complete. [This message will delete itself after 5 seconds.]")
+                        .then(r => r.delete({timeout: 5*1000}))
                     aufm_wait.delete();
                 }
 
