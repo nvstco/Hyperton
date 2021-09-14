@@ -27,7 +27,7 @@
         let aufm_wait = await message.channel.send(aufmEmbed);
 
         // collects all the messages sent and modifies them for the role section
-        const collector = new Discord.MessageCollector(message.channel, filter, { max:10, time: 120*1000 });
+        const collector = new Discord.MessageCollector(message.channel, filter, { max:20, time: 180*1000 });
         collector.on('collect', m => {
 
             // check if the message sent is an existing role
@@ -56,7 +56,7 @@
                 var valid = new Discord.MessageEmbed()
                     .setDescription(`**📢  Successfully added role #${ctr}:** ${t_msg}`)
                     .setColor("2f3136");
-                message.channel.send(valid).then(r => r.delete({timeout: 3*1000}));
+                message.channel.send(valid).then(r => r.delete({timeout: 1*1000}));
                 ctr++;
             }
             else {
