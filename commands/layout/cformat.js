@@ -3,12 +3,12 @@
     module.exports.run = async (client, message, args) => {
 
         if(message.deletable) message.delete();
-        const { author, description, load, logo, endmsg } = require('../files/color.json')
+        const { author, description, load, logo, endmsg } = require('../../resources/color.json')
 
-        const { c_cloud, c_wheat, c_salmon, c_crimson, c_burgundy, c_indigo, c_phtalo, c_seagreen, c_teal, c_moss } = require('../files/color.json')
+        const { c_cloud, c_wheat, c_salmon, c_crimson, c_burgundy, c_indigo, c_phtalo, c_seagreen, c_teal, c_moss } = require('../../resources/color.json')
         var color_a = `${c_cloud}${c_wheat}${c_salmon}${c_crimson}${c_burgundy}${c_indigo}${c_phtalo}${c_seagreen}${c_teal}${c_moss}`;
 
-        const { c_gold, c_bronze, c_magenta, c_lavender, c_periwinkle, c_purple, c_azure, c_condense, c_smoke, c_marsblack } = require('../files/color.json')
+        const { c_gold, c_bronze, c_magenta, c_lavender, c_periwinkle, c_purple, c_azure, c_condense, c_smoke, c_marsblack } = require('../../resources/color.json')
         var color_b = `${c_gold}${c_bronze}${c_magenta}${c_lavender}${c_periwinkle}${c_purple}${c_azure}${c_condense}${c_smoke}${c_marsblack}`;
 
         const hpEmbed = new Discord. MessageEmbed ()  
@@ -28,6 +28,6 @@
     }
 
     module.exports.help = {
-        name: "colorcata",
-        aliases: ['cc']
+        name: "cformat",
+        aliases: ['colorcata', 'cc']
     }
