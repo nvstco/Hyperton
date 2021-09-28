@@ -1,6 +1,6 @@
 
     const Discord = require('discord.js')
-    const { load, endmsg, author, description } = require('../files/color.json')
+    const { load, endmsg, author, description } = require('../../resources/formats.json')
 
     module.exports.run = async (client, message, args) => {
 
@@ -18,7 +18,7 @@
             .setDescription("**Welcome to the R-Formatter 1.0.** This will create a new formatted catalog of your desired roles. The formatter will continue to listen for input, unless you type **'stop'**. This popup will disappear after **two minutes** of inactivity.")
 
             .addField("To start, enter a role name, an ID, or simply tag the role.", "Note: messages that do not contain a role or ID will stop the formatter.")
-            .setFooter("Hyperspace Formatting", load)
+            .setFooter("Arkus Formatting", load)
                 .setThumbnail(message.guild.iconURL())
                 .setTimestamp()
             .setColor(message.guild.me.displayHexColor)
@@ -162,7 +162,7 @@
 
                             // creates the new embed to be edited.
                             const fn_reembed = new Discord.MessageEmbed()
-                                .setFooter("Hyperspace Formatting", load)
+                                .setFooter("Arkus Formatting", load)
                                 .setThumbnail(load)
                                 .setTimestamp()
 
@@ -230,6 +230,6 @@
     }
 
     module.exports.help = {
-        name: "rfmt",
-        aliases: ['rf']
+        name: "rformat",
+        aliases: ['rf', 'rfmt', 'roleformatter']
     }
