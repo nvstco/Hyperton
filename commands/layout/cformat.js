@@ -1,31 +1,39 @@
 
-    const Discord = require('discord.js')
+    const Discord = require('discord.js');
     const fs = require('fs');
 
     module.exports.run = async (client, message, args) => {
 
+        // checks if the user has the Tester role
         if(message.deletable) message.delete();
-        const { author, description, load, logo, endmsg } = require('../../resources/formats.json')
+        const { author, description, load, logo, endmsg } = require('../../resources/formats.json');
 
+        // create two arrays for each column
         let h_01 = [], h_02 = [];
+        // parses the colors.txt file into an array
         const color_x = fs.readFileSync('./resources/colors.txt').toString().split('\n');
 
+        // loops through the colors array
         for (let i = 0; i < color_x.length; i++) {
             
-            let r_name = `⟶ ${color_x[i].substring(0, color_x[i].indexOf(':'))}`
+            // format the role name with an arrow
+            let r_name = `⟶ ${color_x[i].substring(0, color_x[i].indexOf(':'))}`;
+            // grab the actual role using the role name: r_name
             let role = message.guild.roles.cache.find(x => x.name === r_name);
 
+            // if the role does not exist, ignore
             if(role === undefined) return;
 
+            // parses the first half into the left column
             if(i < color_x.length/2) 
-                h_01.push(`> \`${('0'+(i+1)).slice(-2)}:\` ✦ <@&${role.id}>`)
-
+                h_01.push(`> \`${('0'+(i+1)).slice(-2)}:\` ✦ <@&${role.id}>`);
+            // parses the second half into the right column
             else 
-                h_02.push(`> \`${('0'+(i+1)).slice(-2)}:\` ✦ <@&${role.id}>`)
-            
+                h_02.push(`> \`${('0'+(i+1)).slice(-2)}:\` ✦ <@&${role.id}>`);
         }
         
-        const hpEmbed = new Discord. MessageEmbed ()  
+        // creates the final embed
+        const hpEmbed = new Discord.MessageEmbed()  
             .setAuthor(author)
             .setDescription(description)
 
@@ -39,7 +47,6 @@
                 .setFooter("Hyperspace Formatting", load)
                 .setThumbnail(logo)
                 .setTimestamp()
-
         message.channel.send(hpEmbed);
     }
 
