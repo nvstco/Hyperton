@@ -72,5 +72,6 @@
 
     module.exports.help = {
         name: "delete",
-        aliases: ['del']
+        aliases: ['del'],
+        desc: "Deletes all roles created by the bot. Specified deletion support soon."
     }

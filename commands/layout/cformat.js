@@ -52,5 +52,6 @@
 
     module.exports.help = {
         name: "cformat",
-        aliases: ['colorcata', 'cc']
+        aliases: ['colorcata', 'cc'],
+        desc: "Creates a master embed containing roles made with the create command."
     }

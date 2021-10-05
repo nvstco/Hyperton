@@ -80,5 +80,6 @@
 
     module.exports.help = {
         name: "create",
-        aliases: ['c']
+        aliases: ['c'],
+        desc: "Creates 20 roles, each with a color. Support for custom colors soon."
     }

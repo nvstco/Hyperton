@@ -231,5 +231,6 @@
 
     module.exports.help = {
         name: "rformat",
-        aliases: ['rf', 'rfmt', 'roleformatter']
+        aliases: ['rf', 'rfmt', 'roleformat'],
+        desc: "Creates a custom master embed of the user's liking. Note: unfinished."
     }
