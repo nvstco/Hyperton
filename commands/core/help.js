@@ -9,7 +9,7 @@
         
         // initialize the help embed
         const hp_embed = new Discord.MessageEmbed()
-            .setAuthor("Hyperton Commands", load)
+            .setAuthor("Recursion Commands", load)
             .setDescription(`The prefix for this server is \`${prefix}\`. Note that all commands are experimental and few do not work efficiently as of the moment.`)
 
             .setColor(message.guild.me.displayHexColor)
