@@ -51,9 +51,18 @@
 
             .setColor(message.guild.me.displayHexColor)
                 .setFooter("Hyperspace Formatting", load)
-                .setThumbnail(logo)
+                .setThumbnail(message.guild.iconURL())
                 .setTimestamp()
-        message.channel.send(hpEmbed);
+
+        if (args[0] == "edit" && args[1] != undefined) {
+            message.channel.messages.fetch({around: args[1], limit: 1})
+            .then(msg => {
+                const fetchedMsg = msg.first();
+                fetchedMsg.edit(hpEmbed);
+            });
+        }
+        else
+            message.channel.send(hpEmbed);
     }
 
     module.exports.help = {
